@@ -1,28 +1,14 @@
-name: Deploy to EC2 EsperaZero
+name: Ping EC2 EsperaZero
 
 on:
   workflow_dispatch:  # This allows you to manually trigger the workflow
 
 jobs:
-  deploy:
+  ping:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '18'
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Build project
-        run: npm run build
-
-      - name: Deploy to EC2
+      - name: Ping EC2 Instance
         env:
           HOST: ${{ secrets.EC2_HOST }}
           USERNAME: ${{ secrets.EC2_USERNAME }}
@@ -30,12 +16,4 @@ jobs:
         run: |
           echo "${{ secrets.KEY }}" > deploy_key.pem
           chmod 600 deploy_key.pem
-          scp -o StrictHostKeyChecking=no -i deploy_key.pem -r ./ $USERNAME@$HOST:/var/www/next-app
-          ssh -o StrictHostKeyChecking=no -i deploy_key.pem $USERNAME@$HOST << 'EOF'
-            cd /var/www/next-app
-            npm install
-            npm run build
-            pm2 restart all || pm2 start npm --name "next-app" -- start
-          EOF
-
-canwe  updatethe above to ping instaed of deploying?
+          ping -c 4 $HOST
