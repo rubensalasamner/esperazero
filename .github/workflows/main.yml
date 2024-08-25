@@ -15,4 +15,4 @@ jobs:
           KEY: ${{ secrets.EC2_KEY }}
         run: |
           chmod 600 deploy_key.pem
-          ping -c 4 $HOST
+          ping -c 10 google.com
