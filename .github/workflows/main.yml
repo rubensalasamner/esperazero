@@ -14,6 +14,9 @@ jobs:
           USERNAME: ${{ secrets.EC2_USERNAME }}
           KEY: ${{ secrets.EC2_KEY }}
         run: |
+          echo "HOST: $HOST"
+          echo "USERNAME: $USERNAME"
+          echo "KEY: $KEY"
           echo "${{ secrets.KEY }}" > deploy_key.pem
           chmod 600 deploy_key.pem
           ping -c 4 $HOST
