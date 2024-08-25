@@ -1,14 +1,8 @@
-name: Ping EC2 EsperaZero
-
-on:
-  workflow_dispatch:  # This allows you to manually trigger the workflow
-
 jobs:
   ping:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Ping EC2 Instance
+      - name: Check Internet Connectivity
         run: |
-          ping -c 10 8.8.8.8
-
+          curl -I https://www.google.com
