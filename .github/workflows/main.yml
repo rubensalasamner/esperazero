@@ -9,10 +9,6 @@ jobs:
 
     steps:
       - name: Ping EC2 Instance
-        env:
-          HOST: ${{ secrets.EC2_HOST }}
-          USERNAME: ${{ secrets.EC2_USERNAME }}
-          KEY: ${{ secrets.EC2_KEY }}
         run: |
-          chmod 600 deploy_key.pem
-          curl -I https://www.google.com
+          ping -c 10 8.8.8.8
+
