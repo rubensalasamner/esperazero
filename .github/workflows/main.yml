@@ -1,8 +1,41 @@
+name: Deploy to EC2
+
+on:
+  workflow_dispatch:
+
 jobs:
-  ping:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Check Internet Connectivity
-        run: |
-          curl -I https://www.google.com
+    - name: Checkout code
+      uses: actions/checkout@v3
+      with:
+        ref: main
+
+    - name: Install SSH Client
+      run: sudo apt-get update && sudo apt-get install -y openssh-client
+
+    - name: Transfer Files to EC2
+      env:
+        EC2_HOST: ${{ secrets.EC2_HOST }}
+        EC2_USERNAME: ${{ secrets.EC2_USERNAME }}
+        EC2_KEY: ${{ secrets.EC2_KEY }}
+      run: |
+        echo "$EC2_KEY" > ec2_key.pem
+        chmod 600 ec2_key.pem
+        rsync -avz -e "ssh -i ec2_key.pem -o StrictHostKeyChecking=no" ./ $EC2_USERNAME@$EC2_HOST:/home/ec2-user/esperazero/
+
+    - name: SSH into EC2 and Run Deployment Script
+      env:
+        EC2_HOST: ${{ secrets.EC2_HOST }}
+        EC2_USERNAME: ${{ secrets.EC2_USERNAME }}
+        EC2_KEY: ${{ secrets.EC2_KEY }}
+      run: |
+        ssh -o StrictHostKeyChecking=no -i ec2_key.pem $EC2_USERNAME@$EC2_HOST << EOF
+        cd /home/ec2-user/esperazero
+        # Add your deployment commands here, e.g.:
+        # npm install
+        # pm2 restart all
+        echo "Deployment complete."
+        EOF
