@@ -1,8 +1,8 @@
 name: Check Internet Connection
 
 on:
- workflow_dispatch:
- 
+  workflow_dispatch:
+
 jobs:
   test-internet-connection:
     runs-on: ubuntu-latest
@@ -15,3 +15,4 @@ jobs:
         else
           echo "Internet connection is active."
         fi
+      shell: bash
