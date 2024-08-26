@@ -1,18 +1,18 @@
-name: Check Internet Connection
+name: Check DNS Resolution
 
 on:
   workflow_dispatch:
 
 jobs:
-  test-internet-connection:
+  test-dns-resolution:
     runs-on: ubuntu-latest
     steps:
-    - name: Check Internet Connection
+    - name: Check DNS for Google
       run: |
-        if ! curl -s --head --request GET https://www.github.com | grep "200 OK" > /dev/null; then
-          echo "Internet connection failed."
+        if ! nslookup google.com; then
+          echo "DNS resolution failed."
           exit 1
         else
-          echo "Internet connection is active."
+          echo "DNS resolution succeeded."
         fi
       shell: bash
