@@ -9,7 +9,7 @@ jobs:
     steps:
     - name: Check Internet Connection
       run: |
-        if ! curl -s --head  --request GET https://www.google.com | grep "200 OK" > /dev/null; then
+        if ! curl -s --head --request GET https://www.google.com | grep "200 OK" > /dev/null; then
           echo "Internet connection failed."
           exit 1
         else
