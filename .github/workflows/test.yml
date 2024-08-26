@@ -1,18 +1,22 @@
-name: Check DNS Resolution
+name: Check EC2 Connection
 
 on:
   workflow_dispatch:
 
 jobs:
-  test-dns-resolution:
+  test-ec2-connection:
     runs-on: ubuntu-latest
+
     steps:
-    - name: Check DNS for Google
+    - name: Install SSH Client
+      run: sudo apt-get update && sudo apt-get install -y openssh-client
+
+    - name: Check EC2 Connection
+      env:
+        EC2_HOST: ${{ secrets.EC2_HOST }}
+        EC2_USERNAME: ${{ secrets.EC2_USERNAME }}
+        EC2_KEY: ${{ secrets.EC2_KEY }}
       run: |
-        if ! nslookup google.com; then
-          echo "DNS resolution failed."
-          exit 1
-        else
-          echo "DNS resolution succeeded."
-        fi
-      shell: bash
+        echo "$EC2_KEY" > ec2_key.pem
+        chmod 600 ec2_key.pem
+        ssh -o StrictHostKeyChecking=no -i ec2_key.pem $EC2_USERNAME@$EC2_HOST "echo 'Connection successful!'"
