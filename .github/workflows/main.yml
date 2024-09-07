@@ -17,7 +17,8 @@ jobs:
       uses: aws-actions/configure-aws-credentials@v1
       with:
         role-to-assume: arn:aws:iam::026090541303:role/GithubEC2AssumeRole 
-        aws-region: us-north-1b
+        aws-region: us-north-1
+        audience: sts.amazonaws.com
 
     - name: Install AWS CLI
       run: |
