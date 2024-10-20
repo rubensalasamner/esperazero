@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@next/bundle-analyzer": "^14.2.11",
     "@types/socket.io-client": "^3.0.0",
     "cross-env": "^7.0.3",
     "express": "^4.19.2",

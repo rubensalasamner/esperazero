@@ -40,4 +40,3 @@ jobs:
           --targets "Key=instanceids,Values=${{ secrets.EC2_INSTANCE_ID }}" \
           --parameters 'commands=["curl -sL https://rpm.nodesource.com/setup_18.x | sudo bash -", "sudo yum install -y nodejs", "sudo npm install -g pm2", "export HOME=/home/ec2-user", "export AWS_REGION=eu-north-1", "sudo aws s3 sync s3://esperazero-build/ /home/ec2-user/esperazero/ --delete", "ls -la /home/ec2-user/esperazero", "cd /home/ec2-user/esperazero", "npm install", "npm run build", "pm2 restart next-app || pm2 start npm --name next-app -- run start"]' \
           --timeout-seconds 600
-

@@ -15,7 +15,7 @@ app.prepare().then(() => {
   const httpServer = http.createServer(server);
   const io = new Server(httpServer, {
     cors: {
-      origin: "http://localhost:3000",
+      origin: "*",
       methods: ["GET", "POST"],
     },
   });
@@ -35,8 +35,8 @@ app.prepare().then(() => {
 
   server.all("*", (req, res) => handle(req, res));
 
-  httpServer.listen(port, (err) => {
-    if (err) throw err,
-    console.log(`>Ready on http://localhost:${port}`)
+  // Update this line to listen on all interfaces
+  httpServer.listen(port, "0.0.0.0", (err) => {
+    if (err) throw (err, console.log(`> Ready on http://0.0.0.0:${port}`));
   });
 });
