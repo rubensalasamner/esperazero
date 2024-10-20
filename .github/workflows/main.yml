@@ -38,4 +38,5 @@ jobs:
           aws ssm send-command \
           --document-name "AWS-RunShellScript" \
           --targets "Key=instanceids,Values=${{ secrets.EC2_INSTANCE_ID }}" \
-          --parameters 'commands=["aws s3 sync s3://esperazero-build/ /home/ec2-user/esperazero/ --delete", "cd /home/ec2-user/esperazero", "npm install", "npm run build", "if ! command -v pm2 &> /dev/null; then sudo npm install -g pm2; fi", "pm2 restart next-app || pm2 start npm --name next-app -- run start"]'
+          --parameters 'commands=["aws s3 sync s3://esperazero-build/ /home/ec2-user/esperazero/ --delete", "cd /home/ec2-user/esperazero", "npm install", "npm run build", "if ! command -v pm2 &> /dev/null; then sudo npm install -g pm2; fi", "pm2 restart next-app || pm2 start npm --name next-app -- run start"]' \
+          --timeout-seconds 600
